@@ -12,8 +12,25 @@
     <script language="javascript" type="text/javascript"
       src="lib/p5.sound.js"></script>
 
-    <!-- Energy model -->
-    <script langauge="javascript" type="text/javascript"
-      src="js/MainView.js"></script>
+      <!-- Draw SVG -->
+    <script langauge="javascript" type="text/javascript" src="js/MainView.js"></script>
+    <script langauge="javascript" type="text/javascript" src="js/SVGParser.js"></script>
+
+    <style>
+    #dropzone {
+      width: 41%;
+      padding: 20px;
+      margin-bottom: 10px;
+      font-size: 20pt;
+      font-family: Helvetica Neue;
+      text-align: center;
+      border-style: dashed;
+      background-color: #00ffff50;
+    }
+    </style>
   </head>
+
+  <body>
+    <div id="dropzone">Drag a SVG file here</div>
+  </body>
 </html>
