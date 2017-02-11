@@ -32,31 +32,67 @@ function loadSVG(file) {
     const fr = new FileReader();
     fr.onload = function (e) {
       svgParser.text = e.target.result;
-      svgParser.parse();
+      const res = svgParser.parse();
+      drawSVG(res);
     };
     fr.readAsText(file);
   }
 }
 
-function drawSVG(speed = 10) {
-  for (object of svgObjects) {
+function drawSVG(svg) {
+  const ipp = 1 / 227;
+  const mmpp = 10;
+  for (element in svg.content) {
+    if (element != "data") {
+      for (obj of svg.content[element]) {
+        const attr = obj.attributes;
+        const v = function (n, d = 0) { return attr[n] ? attr[n].v : d; };
+        let cx, cy, height, r, rx, ry, width, x, y;
+        switch (element) {
 
+          case "svg":
+            width = v("width", "100%"), height = v("height", "100%");
+            if (width && height) {
+              createCanvas(width, height);
+            } else {
+              createCanvas(500, 500);
+            }
+            background(50);
+            stroke(255);
+            strokeWeight(1);
+            noFill();
+            break;
+
+          case "circle":
+            r = v("r"), cx = v("cx"), cy = v("cy");
+            if (r) ellipse(cx, cy, 2*r);
+            break;
+
+          case "ellipse":
+            cx = v("cx"), cy = v("cy"), rx = v("rx"), ry = v("ry");
+            if (rx && ry) ellipse(cx, cy, 2*rx, 2*ry);
+            break
+
+          case "rect":
+            width = v("width"), height = v("height"), x = v("x"), y = v("y");
+            if (width && height) {
+              rect(x, y, width, height);
+            }
+            break;
+        }
+        drawSVG(obj);
+      }
+    } else {
+      // TODO: Implement.
+    }
   }
 }
 
 function setup() {
-  createCanvas(windowHeight-150, windowHeight-150);
   svgParser = new SVGParser();
-
   dropzone = select('#dropzone');
   dropzone.dragOver(function () { recolor("#00dddd50"); });
   dropzone.dragLeave(function () { recolor("#00ffff50"); });
   dropzone.drop(function (f) { loadSVG(f.file); },
     function () { recolor("#00ffff50"); });
-}
-
-function draw() {
-  background(50);
-
-  // if (svgObjects) drawSVG();
 }

@@ -26,8 +26,9 @@
   </metadata>
   <g
      id="layer1">
-    <circle
-       r="149.5000405"
+    <ellipse
+       rx="149.5"
+       ry="99.5"
        cy="250"
        cx="250"
        id="path4136"
